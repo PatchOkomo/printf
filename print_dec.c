@@ -1,4 +1,4 @@
-#nclude "main.h"
+#include "main.h"
 /**
 * print_dec - function that prints a decimal
 * @d: integer to print
