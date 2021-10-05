@@ -8,6 +8,7 @@
 int print_char(va_list c)
 {
 	unsigned char m_char;
+
 	m_char = va_arg(c, int);
 	_putchar(m_char);
 	return (1);
