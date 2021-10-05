@@ -33,7 +33,7 @@ char *validation_and_return(va_list ap, char *s)
 
 		if (aux3 == 5 && s[aux1] == '%')
 		{
-			aux2 = args[4].function_opc(str_aux, aux2);
+			aux2 = args[4].function_opc(ap, str_aux, aux2);
 			if (s[aux1 + 1] != '%')
 				aux1++;
 			else
