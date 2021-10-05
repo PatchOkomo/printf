@@ -1,38 +1,27 @@
 #ifndef _MAIN_H_
 #define _MAIN_H_
+#include <stdio.h>
 #include <stdarg.h>
-#include <stdlib.h>
-#include <unistd.h>
+
+int _putchar(char c);
+int _printf(const char *format, ...);
+int print_char(va_list c);
+int print_string(va_list s);
+int print_int(va_list i);
+int print_dec(va_list d);
+int print_percentage(void);
+int print_bin(va_list b);
 
 /**
- * struct opc - struct of data type opc.
- * @array: Arguments for analyze and formatted
- * @function_opc: Functions that print data edited
- * @function_opc_diff: Function that found different print argument
-*/
-typedef struct opc
+  * struct code_format - Struct format
+  *
+  * @sc: The specifiers
+  * @f: The function associated
+  */
+typedef struct code_format
 {
-	char *array;
-	int (*function_opc)(va_list argv, char *s, int position);
-	int (*function_opc_diff)(char *s, int position);
-} input;
+	char *sc;
+	int (*f)(va_list);
+} code_f;
 
-int _printf(const char *format, ...);
-int _write(char *s);
-int _strlen(char *s);
-char *validation_and_return(va_list argv, char *s);
-char *_strcat(char *dest, char *src);
-char *assign_buffer(void);
-char *_strncpy(char *dest, char *src, int n);
-char *_strcpy(char *dest, char *src);
-int _str(va_list argv, char *s, int pos);
-int _char(va_list argv, char *str, int pos);
-int _percent(char *s, int pos);
-void _itoa(int n, char *s);
-int _int(va_list argv, char *s, int pos);
-void proc_number_4_digits(int, char *array);
-void proc_number_3_digits(int, char *array);
-void proc_number_2_digits(int, char *array);
-void proc_number_6_digits(int, char *array);
-void proc_negative_num(int n, char *number);
 #endif

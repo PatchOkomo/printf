@@ -1,49 +1,70 @@
 #include "main.h"
 
 /**
- * _printf - Outputs a formated string.
- * @format: Character string to print - may contain directives.
- * Return: The number of characters printed.
- * Excluding the null pointer at the end of the string)
- */
+  * find_function - function that finds formats for _printf
+  * calls the corresponding function.
+  * @format: format (char, string, int, decimal)
+  * Return: NULL or function associated ;
+  */
+int (*find_function(const char *format))(va_list)
+{
+	unsigned int i = 0;
+	code_f find_f[] = {
+		{"c", print_char},
+		{"s", print_string},
+		{"i", print_int},
+		{"d", print_dec},
+		{NULL, NULL}
+	};
+	while (find_f[i].sc)
+	{
+		if (find_f[i].sc[0] == (*format))
+			return (find_f[i].f);
+		i++;
+	}
+	return (NULL);
+}
 
+/**
+  * _printf - function that produces output according to a format.
+  * @format: format (char, string, int, decimal)
+  * Return: size the output;
+  */
 int _printf(const char *format, ...)
 {
 	va_list ap;
-	int i = 0;
-	int size = 0;
-	char *str_formated = NULL;
-	int len = 0;
+	int (*f)(va_list);
+	unsigned int i = 0, cprint = 0;
 
-	if (format == NULL && ap == NULL)
-		return (0);
-
-	while (format[size] != '\0')
-		size++;
-
-	if (size > 1024)
-	{
-		str_formated = malloc(sizeof(char) * size);
-		if (str_formated == NULL)
-			return (1);
-	}
-
-	else
-	str_formated = assign_buffer();
-
-	for (i = 0; i < size; i++)
-		str_formated[i] = format[i];
-
-	str_formated[i] = '\0';
+	if (format == NULL)
+		return (-1);
 	va_start(ap, format);
-
-	validation_and_return(ap, str_formated);
+	while (format[i])
+	{
+		while (format[i] != '%' && format[i])
+		{
+			_putchar(format[i]);
+			cprint++;
+			i++;
+		}
+		if (format[i] == '\0')
+			return (cprint);
+		f = find_function(&format[i + 1]);
+		if (f != NULL)
+		{
+			cprint += f(ap);
+			i += 2;
+			continue;
+		}
+		if (!format[i + 1])
+			return (-1);
+		_putchar(format[i]);
+		cprint++;
+		if (format[i + 1] == '%')
+			i += 2;
+		else
+			i++;
+	}
 	va_end(ap);
-
-	len = _strlen(str_formated);
-	_write(str_formated);
-
-	free(str_formated);
-
-	return (len);
+	return (cprint);
 }
